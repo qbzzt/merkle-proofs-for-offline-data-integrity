@@ -19,9 +19,14 @@ contract MerkleProof {
     }   // setRoot
 
     
-    // Same function as in the JavaScript, just written in Solidity
+    // Same functions as in the JavaScript, just written in Solidity
+    // (and no strings needed)
+    function hash(uint _a) internal pure returns(uint) {
+      return uint(keccak256(abi.encode(_a)));
+    }
+
     function pairHash(uint _a, uint _b) internal pure returns(uint) {
-      return uint(keccak256(abi.encode(_a ^ _b)));
+      return hash(hash(_a) ^ hash(_b));
     }
 
     // Verify a Merkle proof

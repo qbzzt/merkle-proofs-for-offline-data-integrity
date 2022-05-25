@@ -1,10 +1,19 @@
 const { expect } = require("chai");
 
+
+
+// Convert between the string the hash function expects and the
+// BigInt we use everywhere else.
+const hash = x => BigInt(
+  ethers.utils.keccak256(('0x' + x.toString(16).padStart(64,0))))
+
+
 // Symetrical hash of a pair so we won't care if the order is reversed.
-// This code also converts between the string the hash function expects
-// and the BigInt we rest of the code uses
-const pairHash = (a,b) => BigInt(ethers.utils.keccak256('0x' + 
-       (a^b).toString(16).padStart(64,0)))
+const pairHash = (a,b) => hash(hash(a) ^ hash(b))
+
+
+//BigInt(ethers.utils.keccak256('0x' + 
+//       (ethers.utils.keccak256(a)^ethers.utils.keccak256(b)).toString(16).padStart(64,0)))
 
 
 
